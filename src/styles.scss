@@ -1,0 +1,15 @@
+@import "./assets/sass/app.scss";
+
+*,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.p-inputwrapper,
+.p-inputnumber,
+.p-calendar,
+.p-dropdown {
+  width: 100%;
+}

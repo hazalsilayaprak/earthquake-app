@@ -1,0 +1,152 @@
+<div class="content">
+  <div class="header">
+    <div class="logo"></div>
+    <div class="latest-earthquake">latest-earthquake</div>
+  </div>
+  <div class="grid">
+    <div class="col-7 filter-section">
+      <div class="grid">
+        <div class="col-12 label-wrapper">
+          <label for="range">Tarih Araligi</label>
+        </div>
+        <div class="col-6">
+          <p-calendar
+            [(ngModel)]="rangeDates"
+            selectionMode="range"
+            [readonlyInput]="true"
+            inputId="range"
+            [showTime]="true"
+          >
+          </p-calendar>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="col-12 label-wrapper">
+          <label for="">Derinlik Araligi</label>
+        </div>
+        <div class="col-6">
+          <p-inputNumber [(ngModel)]="minDepth"></p-inputNumber>
+        </div>
+        <div class="col-6">
+          <p-inputNumber [(ngModel)]="maxDepth"></p-inputNumber>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="col-12 label-wrapper">
+          <label for="">Buyukluk Araligi</label>
+        </div>
+        <div class="col-6">
+          <p-inputNumber [(ngModel)]="minMagnitude"></p-inputNumber>
+        </div>
+        <div class="col-6">
+          <p-inputNumber [(ngModel)]="maxMagnitude"></p-inputNumber>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="col-12 label-wrapper">
+          <label for="">Yer</label>
+        </div>
+        <div class="col-6">
+          <p-dropdown
+            [options]="cities"
+            [(ngModel)]="selectedCity"
+            optionLabel="name"
+          ></p-dropdown>
+        </div>
+        <div class="col-6">
+          <p-dropdown
+            [options]="seaData"
+            [(ngModel)]="selectedSea"
+            optionLabel="name"
+          ></p-dropdown>
+        </div>
+        <div class="col-6">
+          <p-dropdown
+            [options]="provinces"
+            [(ngModel)]="selectedProvince"
+            optionLabel="name"
+            (onChange)="provinceSelect()"
+          ></p-dropdown>
+        </div>
+        <div class="col-6">
+          <p-dropdown
+            [options]="districts"
+            [(ngModel)]="selectedDistrict"
+            optionLabel="name"
+          ></p-dropdown>
+        </div>
+      </div>
+      <div class="grid justify-content-end">
+        <div class="col-3 flex justify-content-between">
+          <button
+            pButton
+            pRipple
+            type="button"
+            label="Temizle"
+            class="p-button-raised p-button-text"
+          ></button>
+          <button pButton pRipple type="button" label="Filtrele"></button>
+        </div>
+      </div>
+    </div>
+    <div class="col-5 map-section">m</div>
+  </div>
+  <div>
+    <div class="grid justify-content-end">
+      <div class="col-2 flex justify-content-end">
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input
+            [(ngModel)]="searchText"
+            type="text"
+            pInputText
+            placeholder="Search"
+          />
+        </span>
+      </div>
+    </div>
+
+    <p-table
+      [value]="searchTable"
+      responsiveLayout="scroll"
+      [paginator]="true"
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      responsiveLayout="scroll"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [rowsPerPageOptions]="[10, 25, 50]"
+      [exportHeader]="'customExportHeader'"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="date">
+            Date <p-sortIcon field="date"></p-sortIcon>
+          </th>
+
+          <th>Latitude</th>
+          <th>Longitude</th>
+          <th>depth</th>
+          <th>Type</th>
+          <th>magnitude</th>
+          <th>location</th>
+          <th>eventID</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-tableData>
+        <tr>
+          <td>{{ tableData.date }}</td>
+          <td>{{ tableData.latitude }}</td>
+          <td>{{ tableData.longitude }}</td>
+          <td>{{ tableData.depth }}</td>
+          <td>{{ tableData.type }}</td>
+          <td>{{ tableData.magnitude }}</td>
+          <td>{{ tableData.location }}</td>
+          <td>{{ tableData.eventID }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
