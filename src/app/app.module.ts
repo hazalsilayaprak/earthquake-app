@@ -1,16 +1,17 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
-import { FormsModule } from '@angular/forms';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { TableModule } from 'primeng/table';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { CalendarModule } from 'primeng/calendar';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { DropdownModule } from 'primeng/dropdown';
+import { FormsModule } from "@angular/forms";
+import { AppRoutingModule } from "./app-routing.module";
+import { AppComponent } from "./app.component";
+import { TableModule } from "primeng/table";
+import { ButtonModule } from "primeng/button";
+import { InputTextModule } from "primeng/inputtext";
+import { CalendarModule } from "primeng/calendar";
+import { InputNumberModule } from "primeng/inputnumber";
+import { DropdownModule } from "primeng/dropdown";
+import { RadioButtonModule } from "primeng/radiobutton";
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,6 +26,7 @@ import { DropdownModule } from 'primeng/dropdown';
     CalendarModule,
     InputNumberModule,
     DropdownModule,
+    RadioButtonModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

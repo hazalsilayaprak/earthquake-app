@@ -14,5 +14,37 @@
 
   .grid {
     margin: 8px 0;
+
+    .radio-btn-wrapper {
+      margin-right: 16px;
+
+      label {
+        margin-left: 8px;
+      }
+    }
+  }
+}
+
+.map-container {
+  flex-grow: 1;
+  min-height: 20rem;
+  position: relative;
+}
+
+.info-popup {
+  padding: 16px;
+  box-shadow: 0 1px 3px 0 rgba(51, 51, 51, 0.1);
+  border-radius: 4px;
+  background-color: #fff;
+  position: absolute;
+  z-index: 9;
+  bottom: calc(50% - 45px);
+  right: calc(50% - 180px);
+
+  width: fit-content;
+  .list-item {
+    padding: 8px 0;
+    font-weight: normal;
+    font-size: 14px;
   }
 }

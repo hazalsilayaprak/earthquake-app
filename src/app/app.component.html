@@ -1,84 +1,148 @@
 <div class="content">
   <div class="header">
     <div class="logo"></div>
-    <div class="latest-earthquake">latest-earthquake</div>
+    <div class="latest-earthquake">{{ latestEarthquake }}</div>
   </div>
   <div class="grid">
-    <div class="col-7 filter-section">
+    <div class="col-12 md:col-7 filter-section">
       <div class="grid">
         <div class="col-12 label-wrapper">
-          <label for="range">Tarih Araligi</label>
+          <label for="range">Date Range</label>
         </div>
         <div class="col-6">
           <p-calendar
-            [(ngModel)]="rangeDates"
-            selectionMode="range"
-            [readonlyInput]="true"
-            inputId="range"
+            [(ngModel)]="startDate"
+            placeholder="Start date"
+            inputId="startDate"
             [showTime]="true"
-          >
-          </p-calendar>
+            [showSeconds]="true"
+          ></p-calendar>
+        </div>
+        <div class="col-6">
+          <p-calendar
+            [(ngModel)]="endDate"
+            placeholder="End date"
+            inputId="endDate"
+            [showTime]="true"
+            [showSeconds]="true"
+          ></p-calendar>
         </div>
       </div>
 
       <div class="grid">
         <div class="col-12 label-wrapper">
-          <label for="">Derinlik Araligi</label>
+          <label for="">Depth Range</label>
         </div>
         <div class="col-6">
-          <p-inputNumber [(ngModel)]="minDepth"></p-inputNumber>
+          <p-inputNumber
+            [(ngModel)]="minDepth"
+            placeholder="Min Depth"
+            [min]="0"
+          ></p-inputNumber>
         </div>
         <div class="col-6">
-          <p-inputNumber [(ngModel)]="maxDepth"></p-inputNumber>
+          <p-inputNumber
+            [(ngModel)]="maxDepth"
+            placeholder="Max Depth"
+            [min]="0"
+          ></p-inputNumber>
         </div>
       </div>
 
       <div class="grid">
         <div class="col-12 label-wrapper">
-          <label for="">Buyukluk Araligi</label>
+          <label for="">Magnitude Range</label>
         </div>
         <div class="col-6">
-          <p-inputNumber [(ngModel)]="minMagnitude"></p-inputNumber>
+          <p-inputNumber
+            [(ngModel)]="minMagnitude"
+            placeholder="Min Magnitude"
+            [min]="0"
+            [max]="10"
+          ></p-inputNumber>
         </div>
         <div class="col-6">
-          <p-inputNumber [(ngModel)]="maxMagnitude"></p-inputNumber>
+          <p-inputNumber
+            [(ngModel)]="maxMagnitude"
+            placeholder="Max Magnitude"
+            [min]="0"
+            [max]="10"
+          ></p-inputNumber>
         </div>
       </div>
 
       <div class="grid">
-        <div class="col-12 label-wrapper">
-          <label for="">Yer</label>
+        <div class="col-6">
+          <div class="col-12 label-wrapper">
+            <label for="">Event ID</label>
+          </div>
+          <p-inputNumber
+            [(ngModel)]="eventId"
+            placeholder="Event ID"
+          ></p-inputNumber>
         </div>
         <div class="col-6">
+          <div class="col-12 label-wrapper">
+            <label for="">Limits</label>
+          </div>
+
+          <div class="flex">
+            <div class="radio-btn-wrapper">
+              <p-radioButton
+                name="groupname"
+                value="50"
+                [(ngModel)]="limit"
+                inputId="limit1"
+              ></p-radioButton>
+              <label for="limit1">50</label>
+            </div>
+            <div class="radio-btn-wrapper">
+              <p-radioButton
+                name="groupname"
+                value="100"
+                [(ngModel)]="limit"
+                inputId="limit2"
+              ></p-radioButton>
+              <label for="limit2">100</label>
+            </div>
+
+            <div class="radio-btn-wrapper">
+              <p-radioButton
+                name="groupname"
+                value="150"
+                [(ngModel)]="limit"
+                inputId="limit3"
+              ></p-radioButton>
+              <label for="limit3">150</label>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="col-12 label-wrapper">
+            <label for="">Type</label>
+          </div>
+
           <p-dropdown
-            [options]="cities"
-            [(ngModel)]="selectedCity"
+            [options]="magTypes"
+            [(ngModel)]="selectedType"
             optionLabel="name"
+            optionValue="code"
           ></p-dropdown>
         </div>
         <div class="col-6">
+          <div class="col-12 label-wrapper">
+            <label for="">Order</label>
+          </div>
+
           <p-dropdown
-            [options]="seaData"
-            [(ngModel)]="selectedSea"
+            [options]="options"
+            [(ngModel)]="selectedOption"
             optionLabel="name"
-          ></p-dropdown>
-        </div>
-        <div class="col-6">
-          <p-dropdown
-            [options]="provinces"
-            [(ngModel)]="selectedProvince"
-            optionLabel="name"
-            (onChange)="provinceSelect()"
-          ></p-dropdown>
-        </div>
-        <div class="col-6">
-          <p-dropdown
-            [options]="districts"
-            [(ngModel)]="selectedDistrict"
-            optionLabel="name"
+            optionValue="code"
           ></p-dropdown>
         </div>
       </div>
+
       <div class="grid justify-content-end">
         <div class="col-3 flex justify-content-between">
           <button
@@ -88,11 +152,21 @@
             label="Temizle"
             class="p-button-raised p-button-text"
           ></button>
-          <button pButton pRipple type="button" label="Filtrele"></button>
+          <button
+            pButton
+            pRipple
+            type="button"
+            label="Filtrele"
+            (click)="submit()"
+          ></button>
         </div>
       </div>
     </div>
-    <div class="col-5 map-section">m</div>
+    <div class="col-12 md:col-5 map-section">
+      <div id="ol-map" class="map-container w-full h-full">
+        <div class="info-popup" #info></div>
+      </div>
+    </div>
   </div>
   <div>
     <div class="grid justify-content-end">
@@ -119,7 +193,20 @@
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
       [rowsPerPageOptions]="[10, 25, 50]"
       [exportHeader]="'customExportHeader'"
-    >
+      ><ng-template pTemplate="caption">
+        <div class="flex">
+          <button
+            type="button"
+            pButton
+            pRipple
+            icon="pi pi-file-excel"
+            (click)="exportExcel()"
+            class="p-button-success mr-2"
+            pTooltip="XLS"
+            tooltipPosition="bottom"
+          ></button>
+        </div>
+      </ng-template>
       <ng-template pTemplate="header">
         <tr>
           <th pSortableColumn="date">
@@ -128,11 +215,11 @@
 
           <th>Latitude</th>
           <th>Longitude</th>
-          <th>depth</th>
+          <th>Depth</th>
           <th>Type</th>
-          <th>magnitude</th>
-          <th>location</th>
-          <th>eventID</th>
+          <th>Magnitude</th>
+          <th>Location</th>
+          <th>EventID</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-tableData>

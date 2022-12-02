@@ -13,3 +13,11 @@ body {
 .p-dropdown {
   width: 100%;
 }
+
+.ol-viewport {
+  display: none;
+
+  &:last-child {
+    display: inline-block;
+  }
+}

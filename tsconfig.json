@@ -19,6 +19,7 @@
     "target": "es2017",
     "module": "es2020",
     "strictPropertyInitialization": false,
+    "skipLibCheck": true,
     "lib": ["es2020", "dom"]
   },
   "angularCompilerOptions": {
